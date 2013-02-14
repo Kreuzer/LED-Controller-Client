@@ -29,12 +29,16 @@ extern void pwm_init(void)
 {
 	// PWM - Einstellungen:
     // Fast PWM 8 Bit | nicht invertierendes PWM gesetzt
-    TCCR1A |=  (1<<WGM10) | (1<<WGM12) | (1<<COM1A1) | (1<<COM1B1);
+    TCCR1A |=  (1<<WGM10) | (1<<COM1A1) | (1<<COM1B1);
 	// Fast PWM 8 Bit | prescaler 1/256 (ca. 122Hz PWM Frequenz bei 8MHz CPU-Takt)
 	TCCR1B |= (1<<WGM12) | (1<<CS12);
 	// timer2: 8 bit PWM (max)
+#if (__AVR_ATmega8__) || (__AVR_ATmega16__) || (__AVR_ATmega32__)
 	TCCR2 |= (1<<WGM21) | (1<<WGM20) | (1<<COM21) | (1<<CS21) | (1<<CS22); // Fast-PWM | non-invert-PWM | Prescaler
-
+#elif (__AVR_ATmega48__) || (__AVR_ATmega88__) || (__AVR_ATmega168__)
+	TCCR2A |= (1<<WGM21) | (1<<WGM20) | (1<<COM2A1);
+	TCCR2B |= (1<<CS21) | (1<<CS22);
+#endif
 	// PWM Ports auf Ausgang
 	RED_DDR |= (1<<RED_PIN);
 	GREEN_DDR |= (1<<GREEN_PIN);
@@ -46,7 +50,7 @@ extern void pwm_init(void)
 extern void set_pwm ( unsigned int red, unsigned int green, unsigned int blue, unsigned char brightness)
 {
 
-	// errechete logaritmische Werte (damit die Veränderung linear wirkt)
+	// errechete logaritmische Werte (damit die Verï¿½nderung linear wirkt)
 	// im Flash-Speicher gespeichert
 	static unsigned char pwm_table [101] PROGMEM = {0,0,5,6,6,6,6,7,7,7,7,8,8,8,9,9,9,10,10,11,11,12,12,12,13,13,14,15,
 													15,16,16,17,18,19,19,20,21,22,23,24,24,25,27,28,29,30,31,32,34,35,36,
