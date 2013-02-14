@@ -9,6 +9,10 @@
 int main(void){
 
 
+	/* Endlosschleife
+	 * die Unterfunktionen dürfen keine Schleifen enthalten!
+	 *
+	 */
 	while(1){
 
 	}
