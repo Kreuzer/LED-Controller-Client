@@ -15,3 +15,11 @@
 *.exe
 *.out
 *.app
+
+# Eclipse
+.settings/
+Release/
+Debug/
+
+.project
+.cproject
