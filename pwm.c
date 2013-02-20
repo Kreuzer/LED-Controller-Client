@@ -47,7 +47,7 @@ extern void pwm_init(void)
 
 
 
-extern void set_pwm ( unsigned int red, unsigned int green, unsigned int blue, unsigned char brightness)
+extern void pwm_set ( unsigned int red, unsigned int green, unsigned int blue, unsigned char brightness)
 {
 
 	// errechete logaritmische Werte (damit die Ver�nderung linear wirkt)

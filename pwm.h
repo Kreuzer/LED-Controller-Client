@@ -33,7 +33,7 @@ extern void pwm_init(void);
  * @param red, green, blue - 0-100% Anteil
  * @param brightness - Helligkeit in %
  */
-extern void set_pwm ( unsigned int red, unsigned int green, unsigned int blue, unsigned char brigtness);
+extern void pwm_set ( unsigned int red, unsigned int green, unsigned int blue, unsigned char brigtness);
 
 
 // Hardware config
