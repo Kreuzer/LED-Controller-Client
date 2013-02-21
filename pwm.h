@@ -1,6 +1,6 @@
 /******************************************************************************
  Title:    Pulse Wide Modulation (PWM) for RGB LEDs
- Author:   Frederick Brand
+ Author:   Frederick
  Date:     8/2009
  Software: WinAVR 20090313
  Hardware: ATmega8 mit 8 Mhz (intern)
@@ -21,6 +21,31 @@
 #include <avr/pgmspace.h>			// Für den Zugriff auf den Flashspeicher
 
 
+struct hsv{
+	unsigned char h;
+	unsigned char s;
+	unsigned char v;
+};
+
+struct rgb{
+	unsigned char red;
+	unsigned char green;
+	unsigned char blue;
+};
+
+/*
+H:          der Farbton als Farbwinkel H auf dem Farbkreis (z. B. 0° = Rot, 120° = Grün, 240° = Blau)
+S:          die Sättigung S in Prozent (z. B. 0% = keine Farbe, 50% = ungesättigte Farbe, 100% = gesättigte, reine Farbe)
+V:          der Grauwert V als Prozentwert angegeben (z. B. 0% = keine Helligkeit, 100% = volle Helligkeit)
+
+Skalierung der HSV Werte:
+H:			0-255, 0=rot, 42=gelb, 85=grün, 128=türkis, 171=blau, 214=violett
+S:			0-255, 0=weißtöne, 255=volle Farben
+V:			0-255, 0=aus, 255=maximale Helligkeit
+
+*/
+
+
 /** initialisiert die PWM-Hardware
  *
  * 	Inizialisiert die Timer1 und 2 auf: - 8bit Fast-PWM nicht invertierend ca. 1kHz
@@ -28,12 +53,26 @@
 extern void pwm_init(void);
 
 
-/** setzt neue Ausgabe Werte
+/** setzt neue Ausgabe Werte (Helligkeit)
  *
- * @param red, green, blue - 0-100% Anteil
+ * @param struct rgb
  * @param brightness - Helligkeit in %
  */
-extern void pwm_set ( unsigned int red, unsigned int green, unsigned int blue, unsigned char brigtness);
+extern void pwm_set_rgb_brightness ( struct rgb, unsigned char brightness);
+
+
+/** setzt neue Ausgabe Werte
+ * 	@param struct rgb
+ */
+extern void pwm_set_rgb ( struct rgb);
+
+
+/** setzt neue Ausgabe Werte
+ * 	@param struct hsv
+ */
+extern void pwm_set_hsv ( struct hsv);
+
+
 
 
 // Hardware config
