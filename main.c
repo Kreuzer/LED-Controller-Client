@@ -73,19 +73,29 @@ void mode4(unsigned char speed, unsigned char brightness){
 }
 
 // Strobo
-void mode7(unsigned char speed){
+void mode7(unsigned char on_time, unsigned char off_time){
 
 	static unsigned char counter;
+	static unsigned char step=0;
 
-	if(counter==speed){
-		counter = 0;
-		hsv.v=255;
-		hsv.s=255;
+	switch(step){
+		case 0:	//warten bis Einschalten
+			if(counter==off_time){
+				counter = 0;
+				hsv.v=255;
+				hsv.s=255;
+				step++;
+			}
+			break;
+		case 1: // Warten bis ausschalten
+			if(counter==on_time){
+				hsv.v=0;
+				step=0;
+				counter=0;
+			}
+			break;
 	}
-	else{
-		counter++;
-		hsv.v=0;
-	}
+	counter++;
 }
 
 int main(void){
@@ -97,7 +107,7 @@ int main(void){
 	 *
 	 */
 
-	hsv.h=0;	// Farbe
+	hsv.h=170;	// Farbe
 	hsv.s=255;	// Sätigung
 	hsv.v=255;	// Helligkeit
 
@@ -105,10 +115,10 @@ int main(void){
 
 		_delay_ms(10);	//TODO: Durch Timer ersetzen.
 
-		mode1(10,128);
+//		mode1(10,128);
 //		mode3(100,255);
 //		mode4(100,100);
-//		mode7(10);
+		mode7(10,200);
 		pwm_set_hsv(hsv);
 	}
 }
